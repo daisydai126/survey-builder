@@ -1,49 +1,830 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Survey Builder</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Survey Builder V2.1</title>
 <style>
-:root{--primary:#6554d9;--bg:#f5f6fb;--text:#202438;--muted:#737b90;--line:#e4e6ef;--white:#fff;--danger:#c93b53}*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font:15px/1.5 system-ui,-apple-system,Segoe UI,sans-serif}button,input,textarea,select{font:inherit}button{cursor:pointer}button:disabled{opacity:.4;cursor:not-allowed}.top{background:#fff;border-bottom:1px solid var(--line);position:sticky;top:0;z-index:5}.top-inner{max-width:980px;margin:auto;padding:14px 20px;display:flex;align-items:center;justify-content:space-between;gap:12px}.brand{font-size:20px;font-weight:800;color:var(--primary)}.sub{font-size:12px;color:var(--muted)}.tabs{display:flex;gap:8px}.tab{border:0;background:transparent;padding:9px 14px;border-radius:9px;color:var(--muted);font-weight:650}.tab.active{background:#eeeaff;color:var(--primary)}main{max-width:800px;margin:26px auto;padding:0 16px 60px}.card{background:var(--white);border:1px solid var(--line);border-radius:15px;padding:22px;margin-bottom:16px;box-shadow:0 4px 18px #24244a07}.hero{border-top:7px solid var(--primary)}h1,h2,h3,p{margin-top:0}h1{font-size:26px;margin-bottom:8px}h2{font-size:20px}h3{font-size:17px}label{display:block;font-size:13px;font-weight:650;color:#525a70;margin-bottom:6px}.field{width:100%;padding:11px 12px;border:1px solid #d9dce8;border-radius:9px;background:#fff;color:var(--text);outline:none}.field:focus{border-color:var(--primary);box-shadow:0 0 0 3px #6554d91a}textarea.field{min-height:75px;resize:vertical}.stack{display:grid;gap:12px}.row{display:flex;align-items:center;gap:10px;flex-wrap:wrap}.grow{flex:1;min-width:150px}.btn{border:1px solid var(--line);border-radius:9px;padding:9px 13px;background:#fff;color:var(--text);font-weight:650}.btn:hover{background:#f4f3ff}.btn.primary{background:var(--primary);color:#fff;border-color:var(--primary)}.btn.primary:hover{background:#5140c5}.btn.danger{color:var(--danger)}.btn.small{padding:6px 10px;font-size:13px}.muted{color:var(--muted)}.tiny{font-size:12px}.question{border-left:4px solid #ddd8fc}.question-head{display:flex;gap:12px;align-items:flex-start}.question-head .grow{min-width:0}.question-actions{display:flex;gap:7px;flex-wrap:wrap;margin-top:18px;padding-top:14px;border-top:1px solid var(--line)}.option-row{display:flex;gap:8px;align-items:center;margin:8px 0}.option-row input{flex:1;min-width:0}.switch{display:inline-flex;align-items:center;gap:7px;font-size:13px;font-weight:600;color:var(--text)}.switch input{accent-color:var(--primary);width:17px;height:17px}.answer-choice{display:flex;gap:9px;align-items:center;padding:8px 0}.answer-choice input{accent-color:var(--primary)}.answer-choice label{font-size:15px;color:var(--text);font-weight:400;margin:0}.required{color:var(--danger)}.error{color:var(--danger);font-size:13px;margin-top:8px}.stars{display:flex;gap:5px;flex-wrap:wrap}.star{font-size:30px;border:0;background:none;color:#c4c6d3;padding:0 3px}.star.selected{color:#e6a327}.scale{display:flex;gap:10px;flex-wrap:wrap;align-items:center}.scale label{margin:0;font-weight:400;color:var(--text)}.empty{text-align:center;padding:38px 20px}.stat{font-size:42px;font-weight:800;color:var(--primary)}.answer{padding:12px 0;border-bottom:1px solid var(--line);overflow-wrap:anywhere}.answer:last-child{border:0}.pill{display:inline-block;background:#f0edff;color:#5c4bba;border-radius:20px;padding:3px 9px;font-size:12px}.footer-note{margin-top:20px;text-align:center;font-size:12px;color:var(--muted)}.hidden{display:none!important}@media(max-width:600px){.top-inner{align-items:flex-start;flex-direction:column}.tabs{width:100%}.tab{flex:1;padding:9px 6px}.card{padding:16px}.question-head{flex-direction:column}.question-head .grow{width:100%}.question-head select{width:100%}.btn{font-size:13px}h1{font-size:23px}}
+:root{
+  --primary:#6754d9;--bg:#f5f6fb;--text:#25283c;
+  --muted:#737b90;--line:#e2e5ef;--danger:#cf4055;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--text);
+  font:15px/1.5 system-ui,Arial,sans-serif}
+button,input,textarea,select{font:inherit}
+button{cursor:pointer}
+button:disabled{opacity:.4;cursor:not-allowed}
+header{background:white;border-bottom:1px solid var(--line);
+  position:sticky;top:0;z-index:10}
+.header{max-width:1000px;margin:auto;padding:15px 20px;
+  display:flex;justify-content:space-between;align-items:center;gap:15px}
+.brand{font-size:21px;font-weight:800;color:var(--primary)}
+.tabs{display:flex;gap:8px}
+.tab{border:0;background:transparent;padding:10px 15px;
+  border-radius:9px;color:var(--muted);font-weight:600}
+.tab.active{background:#eeeaff;color:var(--primary)}
+main{max-width:820px;margin:25px auto;padding:0 16px 70px}
+.card{background:white;border:1px solid var(--line);
+  border-radius:15px;padding:22px;margin-bottom:16px;
+  box-shadow:0 3px 15px #25283c08}
+.hero{border-top:6px solid var(--primary)}
+h1,h2,h3,p{margin-top:0}
+h1{font-size:26px}h2{font-size:20px}h3{font-size:17px}
+label{display:block;font-size:13px;font-weight:600;
+  color:#555d72;margin-bottom:6px}
+.field{width:100%;padding:11px;border:1px solid #d8dce8;
+  border-radius:9px;background:white;color:var(--text)}
+.field:focus{outline:2px solid #d9d2ff;border-color:var(--primary)}
+textarea.field{min-height:80px;resize:vertical}
+.row{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.stack{display:grid;gap:14px}
+.grow{flex:1;min-width:150px}
+.btn{border:1px solid var(--line);background:white;
+  padding:9px 14px;border-radius:9px;font-weight:600}
+.btn:hover{background:#f2efff}
+.btn.primary{background:var(--primary);color:white;
+  border-color:var(--primary)}
+.btn.danger{color:var(--danger)}
+.btn.small{padding:6px 10px;font-size:13px}
+.muted{color:var(--muted)}
+.tiny{font-size:12px}
+.hidden{display:none!important}
+.question{border-left:4px solid #dcd6ff}
+.question-head{display:flex;gap:12px;align-items:flex-start}
+.option-row{display:flex;gap:8px;margin:8px 0}
+.option-row .field{flex:1;min-width:0}
+.actions{display:flex;align-items:center;gap:8px;flex-wrap:wrap;
+  border-top:1px solid var(--line);padding-top:15px;margin-top:18px}
+.switch{display:flex;align-items:center;gap:7px;margin:0}
+.switch input,.choice input{accent-color:var(--primary)}
+.choice{display:flex;align-items:center;gap:9px;padding:8px 0}
+.choice label{margin:0;font-size:15px;font-weight:400;color:var(--text)}
+.required,.error{color:var(--danger)}
+.error{font-size:13px;margin-top:9px}
+.status{display:inline-block;border-radius:25px;padding:5px 12px;
+  background:#eff0f5;font-size:13px;font-weight:700}
+.status.live{background:#e4f7ea;color:#187746}
+.publish-bar{display:flex;align-items:center;
+  justify-content:space-between;gap:15px;flex-wrap:wrap}
+.share{margin-top:15px;padding:15px;background:#f7f5ff;
+  border:1px solid #dcd5ff;border-radius:12px}
+.link{overflow-wrap:anywhere;color:#5140b4;font-size:13px}
+.notice{background:#fff8df;color:#78621e;padding:12px;
+  border-radius:9px;font-size:13px;margin-bottom:16px}
+.stars{display:flex;gap:5px;flex-wrap:wrap}
+.star{border:0;background:transparent;color:#c6c8d3;font-size:31px}
+.star.selected{color:#e9aa2c}
+.scale{display:flex;gap:12px;flex-wrap:wrap}
+.scale label{font-weight:400;font-size:15px;color:var(--text)}
+.empty{text-align:center;padding:40px 20px}
+.stat{font-size:43px;font-weight:800;color:var(--primary)}
+.answer{border-bottom:1px solid var(--line);padding:12px 0;
+  overflow-wrap:anywhere}
+.answer:last-child{border:0}
+.pill{background:#eeeaff;color:#5747b5;border-radius:20px;
+  padding:4px 9px;font-size:12px}
+.footer{text-align:center;color:var(--muted);font-size:12px;margin-top:20px}
+@media(max-width:600px){
+ .header{flex-direction:column;align-items:stretch}
+ .tabs{width:100%}.tab{flex:1;padding:9px 5px}
+ .card{padding:16px}
+ .question-head{flex-direction:column}
+ .question-head>*{width:100%}
+ .publish-bar{align-items:stretch}
+ h1{font-size:23px}
+}
 </style>
 </head>
 <body>
-<header class="top"><div class="top-inner"><div><div class="brand">✦ Survey Builder</div><div class="sub" id="saveStatus">Saved locally</div></div><nav class="tabs" aria-label="Main navigation"><button class="tab active" data-tab="builder">Builder</button><button class="tab" data-tab="preview">Preview</button><button class="tab" data-tab="responses">Responses <span id="responseBadge">0</span></button></nav></div></header>
-<main><section id="builderPage"><div class="card hero stack"><div><label for="surveyTitle">SURVEY TITLE</label><input id="surveyTitle" class="field" placeholder="Untitled survey" maxlength="200"></div><div><label for="surveyDescription">DESCRIPTION</label><textarea id="surveyDescription" class="field" placeholder="Tell respondents what this survey is about..."></textarea></div></div><div id="questionList"></div><div class="row"><button class="btn primary" id="addQuestion">＋ Add Question</button><button class="btn" id="previewButton">Preview Survey</button></div><p class="footer-note">Changes save automatically in this browser.</p></section>
-<section id="previewPage" class="hidden"><div id="formView"><div class="card hero"><h1 id="previewTitle"></h1><p class="muted" id="previewDescription"></p><p class="tiny required">* Required question</p></div><form id="surveyForm" novalidate><div id="previewQuestions"></div><div class="row"><button class="btn primary" type="submit">Submit response</button><button class="btn" type="button" id="backToBuilder">Back to Builder</button></div></form></div><div id="thankYou" class="card empty hidden"><div style="font-size:42px">✓</div><h1>Thank you!</h1><p>Your response was saved locally on this device.</p><button class="btn primary" id="anotherResponse">Submit another response</button></div></section>
-<section id="responsesPage" class="hidden"><div class="card hero"><h2>Responses</h2><div class="stat" id="responseCount">0</div><p class="muted">Local test responses saved in this browser only.</p><div class="row"><button class="btn danger" id="clearResponses">Clear all responses</button></div></div><div id="responseList"></div></section></main>
+
+<header>
+ <div class="header">
+  <div>
+   <div class="brand">✦ Survey Builder</div>
+   <div class="muted tiny" id="saveStatus">Saved locally</div>
+  </div>
+  <nav class="tabs" id="navigation">
+   <button class="tab active" data-tab="builder">Builder</button>
+   <button class="tab" data-tab="preview">Preview</button>
+   <button class="tab" data-tab="responses">
+    Responses <span id="responseBadge">0</span>
+   </button>
+  </nav>
+ </div>
+</header>
+
+<main>
+ <div class="notice">
+  ⚠ Local Demo — Forms and responses are stored only in this
+  browser. Sharing links does not enable cross-device collection.
+ </div>
+
+ <section id="builderPage">
+  <div class="card">
+   <div class="publish-bar">
+    <div>
+     <span id="publishStatus" class="status">● Draft</span>
+     <p class="muted tiny" id="publishHint" style="margin:8px 0 0">
+      Publish a snapshot to test your form.
+     </p>
+    </div>
+    <div class="row">
+     <button class="btn primary" id="publishButton">Publish</button>
+     <button class="btn danger hidden" id="unpublishButton">
+      Unpublish
+     </button>
+    </div>
+   </div>
+   <div id="sharePanel" class="share hidden">
+    <label>LOCAL DEMO FORM LINK</label>
+    <div id="shareUrl" class="link"></div>
+    <div class="row" style="margin-top:12px">
+     <button class="btn small" id="copyLink">Copy Link</button>
+     <button class="btn small" id="openForm">Open Form ↗</button>
+    </div>
+    <p class="muted tiny" style="margin:10px 0 0">
+     This link works only where the published form exists
+     in localStorage.
+    </p>
+   </div>
+  </div>
+
+  <div class="card hero stack">
+   <div>
+    <label>SURVEY TITLE</label>
+    <input class="field" id="surveyTitle" maxlength="200">
+   </div>
+   <div>
+    <label>DESCRIPTION</label>
+    <textarea class="field" id="surveyDescription"></textarea>
+   </div>
+  </div>
+
+  <div id="questionList"></div>
+
+  <div class="row">
+   <button class="btn primary" id="addQuestion">＋ Add Question</button>
+   <button class="btn" id="previewButton">Preview Survey</button>
+  </div>
+  <p class="footer">Changes are saved automatically.</p>
+ </section>
+
+ <section id="previewPage" class="hidden">
+  <div id="formView">
+   <div class="card hero">
+    <h1 id="previewTitle"></h1>
+    <p class="muted" id="previewDescription"></p>
+    <p class="required tiny">* Required question</p>
+   </div>
+   <form id="surveyForm" novalidate>
+    <div id="previewQuestions"></div>
+    <div class="row">
+     <button type="submit" class="btn primary">
+      Submit response
+     </button>
+     <button type="button" class="btn" id="backToBuilder">
+      Back to Builder
+     </button>
+    </div>
+   </form>
+  </div>
+  <div id="thankYou" class="card empty hidden">
+   <div style="font-size:44px;color:#27875b">✓</div>
+   <h1>Thank you!</h1>
+   <p>Your response was saved locally on this device.</p>
+   <button class="btn primary" id="anotherResponse">
+    Submit another response
+   </button>
+  </div>
+ </section>
+
+ <section id="responsesPage" class="hidden">
+  <div class="card hero">
+   <h2>Responses</h2>
+   <div id="responseCount" class="stat">0</div>
+   <p class="muted">Local test responses only.</p>
+   <button class="btn danger" id="clearResponses">
+    Clear all responses
+   </button>
+  </div>
+  <div id="responseList"></div>
+ </section>
+
+ <section id="unavailablePage" class="hidden">
+  <div class="card empty">
+   <h1>Form unavailable</h1>
+   <p id="unavailableMessage" class="muted">
+    This form is not available in this browser.
+   </p>
+  </div>
+ </section>
+</main>
+
 <script>
 'use strict';
-const STORAGE_KEY='survey-builder-v1';
-const TYPES=[['short','Short Answer'],['paragraph','Paragraph'],['multiple','Multiple Choice'],['checkbox','Checkboxes'],['dropdown','Dropdown'],['scale','Linear Scale'],['rating','Star Rating']];
-const OPTION_TYPES=new Set(['multiple','checkbox','dropdown']);
-const uid=()=>typeof crypto!=='undefined'&&crypto.randomUUID?crypto.randomUUID():'id-'+Date.now()+'-'+Math.random().toString(36).slice(2);
-const newQuestion=()=>({id:uid(),type:'multiple',title:'Untitled question',required:false,options:[{id:uid(),label:'Option 1'},{id:uid(),label:'Option 2'}],settings:{scaleMin:1,scaleMax:5,ratingMax:5},logic:null,image:null});
-const initial=()=>({schemaVersion:1,survey:{id:uid(),title:'My First Survey',description:'We would love to hear from you.',questions:[newQuestion()],settings:{thankYouMessage:'Thank you!'}},responses:[]});
-function load(){try{const raw=localStorage.getItem(STORAGE_KEY);if(!raw)return initial();const obj=JSON.parse(raw);if(obj?.schemaVersion===1&&obj.survey&&Array.isArray(obj.survey.questions)&&Array.isArray(obj.responses))return obj;}catch(e){console.warn('Could not read saved data',e)}return initial()}
-let state=load();let tab='builder';let draftAnswers={};
-const $=id=>document.getElementById(id);
-const esc=value=>String(value??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-function save(){try{localStorage.setItem(STORAGE_KEY,JSON.stringify(state));$('saveStatus').textContent='Saved locally';}catch(e){$('saveStatus').textContent='Save failed: browser storage unavailable';console.error(e)}}
-function updateCount(){$('responseBadge').textContent=state.responses.filter(r=>r.surveyId===state.survey.id).length}
-function findQ(id){return state.survey.questions.find(q=>q.id===id)}
-function setTab(next){tab=next;for(const name of ['builder','preview','responses'])$(name+'Page').classList.toggle('hidden',name!==next);document.querySelectorAll('.tab').forEach(el=>el.classList.toggle('active',el.dataset.tab===next));if(next==='preview')renderPreview();if(next==='responses')renderResponses();window.scrollTo({top:0,behavior:'instant'})}
-function renderBuilder(){const active=document.activeElement;const focusId=active?.id;const start=active?.selectionStart;const end=active?.selectionEnd;$('surveyTitle').value=state.survey.title;$('surveyDescription').value=state.survey.description;$('questionList').innerHTML=state.survey.questions.map((q,i)=>{const opts=OPTION_TYPES.has(q.type)?`<div><label>ANSWER OPTIONS</label>${q.options.map((o,j)=>`<div class="option-row"><span class="muted">${q.type==='multiple'?'◯':q.type==='checkbox'?'☐':'▾'}</span><input class="field" data-field="option" data-q="${q.id}" data-option="${o.id}" value="${esc(o.label)}" aria-label="Option ${j+1}"><button class="btn small danger" data-action="remove-option" data-q="${q.id}" data-option="${o.id}" aria-label="Remove option">✕</button></div>`).join('')}<button class="btn small" data-action="add-option" data-q="${q.id}">＋ Add option</button></div>`:'';const settings=q.type==='scale'?`<div class="row"><div><label>Minimum</label><select class="field" data-field="scaleMin" data-q="${q.id}">${[0,1].map(n=>`<option value="${n}" ${q.settings.scaleMin===n?'selected':''}>${n}</option>`).join('')}</select></div><div><label>Maximum</label><select class="field" data-field="scaleMax" data-q="${q.id}">${[2,3,4,5,6,7,8,9,10].map(n=>`<option value="${n}" ${q.settings.scaleMax===n?'selected':''}>${n}</option>`).join('')}</select></div></div>`:q.type==='rating'?`<div><label>Number of stars</label><select class="field" data-field="ratingMax" data-q="${q.id}">${[3,4,5,6,7,8,9,10].map(n=>`<option value="${n}" ${q.settings.ratingMax===n?'selected':''}>${n}</option>`).join('')}</select></div>`:'';return `<article class="card question"><div class="question-head"><div class="grow"><label>QUESTION ${i+1}</label><input class="field" data-field="title" data-q="${q.id}" value="${esc(q.title)}" placeholder="Enter your question"></div><div><label>QUESTION TYPE</label><select class="field" data-field="type" data-q="${q.id}">${TYPES.map(([v,t])=>`<option value="${v}" ${q.type===v?'selected':''}>${t}</option>`).join('')}</select></div></div><div class="stack" style="margin-top:16px">${opts}${settings}</div><div class="question-actions"><label class="switch grow"><input type="checkbox" data-field="required" data-q="${q.id}" ${q.required?'checked':''}> Required</label><button class="btn small" data-action="up" data-q="${q.id}" ${i===0?'disabled':''} title="Move up">↑</button><button class="btn small" data-action="down" data-q="${q.id}" ${i===state.survey.questions.length-1?'disabled':''} title="Move down">↓</button><button class="btn small" data-action="copy" data-q="${q.id}">Duplicate</button><button class="btn small danger" data-action="delete" data-q="${q.id}">Delete</button></div></article>`}).join('');updateCount();if(focusId){const el=document.getElementById(focusId);if(el){el.focus();if(typeof start==='number'&&el.setSelectionRange)el.setSelectionRange(start,end)}}}
-function updateQuestionField(el){const q=findQ(el.dataset.q);if(!q)return;const field=el.dataset.field;if(field==='option'){const o=q.options.find(x=>x.id===el.dataset.option);if(o)o.label=el.value;}else if(field==='required')q.required=el.checked;else if(field==='type'){q.type=el.value;if(OPTION_TYPES.has(q.type)&&!q.options.length)q.options=[{id:uid(),label:'Option 1'}];}else if(['scaleMin','scaleMax','ratingMax'].includes(field))q.settings[field]=Number(el.value);else q[field]=el.value;save();if(['type','scaleMin','scaleMax','ratingMax'].includes(field))renderBuilder()}
-$('questionList').addEventListener('input',e=>{if(e.target.dataset.field)updateQuestionField(e.target)});
-$('questionList').addEventListener('change',e=>{if(e.target.dataset.field)updateQuestionField(e.target)});
-$('questionList').addEventListener('click',e=>{const b=e.target.closest('button[data-action]');if(!b)return;const q=findQ(b.dataset.q);if(!q)return;const list=state.survey.questions;const i=list.indexOf(q);switch(b.dataset.action){case 'add-option':q.options.push({id:uid(),label:`Option ${q.options.length+1}`});break;case 'remove-option':if(q.options.length<=1){alert('Keep at least one option.');return}q.options=q.options.filter(o=>o.id!==b.dataset.option);break;case 'copy':{const copy=JSON.parse(JSON.stringify(q));copy.id=uid();copy.title+=' (copy)';copy.options=copy.options.map(o=>({...o,id:uid()}));list.splice(i+1,0,copy);break}case 'delete':if(!confirm('Delete this question?'))return;list.splice(i,1);break;case 'up':if(i>0)[list[i-1],list[i]]=[list[i],list[i-1]];break;case 'down':if(i<list.length-1)[list[i+1],list[i]]=[list[i],list[i+1]];break;}save();renderBuilder()});
-$('surveyTitle').addEventListener('input',e=>{state.survey.title=e.target.value;save()});$('surveyDescription').addEventListener('input',e=>{state.survey.description=e.target.value;save()});$('addQuestion').onclick=()=>{state.survey.questions.push(newQuestion());save();renderBuilder();document.querySelector('#questionList article:last-child')?.scrollIntoView({behavior:'smooth',block:'center'})};$('previewButton').onclick=()=>setTab('preview');$('backToBuilder').onclick=()=>setTab('builder');document.querySelectorAll('.tab').forEach(b=>b.onclick=()=>setTab(b.dataset.tab));
-function renderPreview(){draftAnswers={};$('thankYou').classList.add('hidden');$('formView').classList.remove('hidden');$('previewTitle').textContent=state.survey.title||'Untitled survey';$('previewDescription').textContent=state.survey.description;$('previewQuestions').innerHTML=state.survey.questions.map((q,i)=>{let input='';const id=esc(q.id);if(q.type==='short')input=`<input class="field" data-answer="${id}" placeholder="Your answer">`;if(q.type==='paragraph')input=`<textarea class="field" data-answer="${id}" placeholder="Your answer"></textarea>`;if(q.type==='multiple'||q.type==='checkbox')input=q.options.map(o=>`<div class="answer-choice"><input type="${q.type==='multiple'?'radio':'checkbox'}" name="q-${id}" id="o-${esc(o.id)}" data-answer="${id}" value="${esc(o.id)}"><label for="o-${esc(o.id)}">${esc(o.label)}</label></div>`).join('');if(q.type==='dropdown')input=`<select class="field" data-answer="${id}"><option value="">Select an option</option>${q.options.map(o=>`<option value="${esc(o.id)}">${esc(o.label)}</option>`).join('')}</select>`;if(q.type==='scale')input=`<div class="scale">${Array.from({length:q.settings.scaleMax-q.settings.scaleMin+1},(_,n)=>n+q.settings.scaleMin).map(n=>`<label><input type="radio" name="q-${id}" data-answer="${id}" value="${n}"> ${n}</label>`).join('')}</div>`;if(q.type==='rating')input=`<div class="stars" data-rating="${id}">${Array.from({length:q.settings.ratingMax},(_,n)=>`<button type="button" class="star" data-star="${n+1}" data-q="${id}" aria-label="${n+1} stars">★</button>`).join('')}</div>`;return `<div class="card" data-question-card="${id}"><h3>${i+1}. ${esc(q.title||'Untitled question')} ${q.required?'<span class="required">*</span>':''}</h3>${input}<div class="error hidden" data-error="${id}">This question is required.</div></div>`}).join('')}
-$('previewQuestions').addEventListener('click',e=>{const star=e.target.closest('[data-star]');if(!star)return;const qid=star.dataset.q;draftAnswers[qid]=Number(star.dataset.star);document.querySelectorAll(`[data-rating="${qid}"] .star`).forEach(b=>b.classList.toggle('selected',Number(b.dataset.star)<=draftAnswers[qid]));document.querySelector(`[data-error="${qid}"]`)?.classList.add('hidden')});
-function readAnswer(q){if(q.type==='rating')return draftAnswers[q.id]??null;const nodes=[...document.querySelectorAll('[data-answer]')].filter(el=>el.dataset.answer===q.id);if(q.type==='checkbox')return nodes.filter(el=>el.checked).map(el=>el.value);if(['multiple','scale'].includes(q.type))return nodes.find(el=>el.checked)?.value??null;return nodes[0]?.value??''}
-function isEmpty(v){return v==null||(Array.isArray(v)?v.length===0:typeof v==='string'&&v.trim()==='')}
-$('surveyForm').addEventListener('submit',e=>{e.preventDefault();const answers={};let firstError=null;for(const q of state.survey.questions){const value=readAnswer(q);answers[q.id]=value;const invalid=q.required&&isEmpty(value);document.querySelector(`[data-error="${q.id}"]`)?.classList.toggle('hidden',!invalid);if(invalid&&!firstError)firstError=document.querySelector(`[data-question-card="${q.id}"]`)}if(firstError){firstError.scrollIntoView({behavior:'smooth',block:'center'});return}state.responses.push({id:uid(),surveyId:state.survey.id,submittedAt:new Date().toISOString(),answers});save();updateCount();$('formView').classList.add('hidden');$('thankYou').classList.remove('hidden');window.scrollTo(0,0)});
+
+const $ = id => document.getElementById(id);
+const STORAGE_KEY = 'survey-builder-v1';
+const PUBLISH_KEY = 'survey-builder-published-v2';
+
+const TYPES = [
+ ['short','Short Answer'],
+ ['paragraph','Paragraph'],
+ ['multiple','Multiple Choice'],
+ ['checkbox','Checkboxes'],
+ ['dropdown','Dropdown'],
+ ['scale','Linear Scale'],
+ ['rating','Star Rating']
+];
+
+const OPTION_TYPES = new Set(['multiple','checkbox','dropdown']);
+
+function uid(){
+ return typeof crypto !== 'undefined' && crypto.randomUUID
+  ? crypto.randomUUID()
+  : 'id-'+Date.now()+'-'+Math.random().toString(36).slice(2);
+}
+function clone(value){return JSON.parse(JSON.stringify(value))}
+function esc(value){
+ return String(value??'').replace(/[&<>"']/g,c=>({
+  '&':'&amp;','<':'&lt;','>':'&gt;',
+  '"':'&quot;',"'":'&#39;'
+ })[c]);
+}
+function newQuestion(){
+ return {
+  id:uid(),type:'multiple',title:'Untitled question',
+  required:false,
+  options:[
+   {id:uid(),label:'Option 1'},
+   {id:uid(),label:'Option 2'}
+  ],
+  settings:{scaleMin:1,scaleMax:5,ratingMax:5},
+  logic:null,image:null
+ };
+}
+function initial(){
+ return {
+  schemaVersion:1,
+  survey:{
+   id:uid(),title:'My First Survey',
+   description:'We would love to hear from you.',
+   questions:[newQuestion()],
+   settings:{thankYouMessage:'Thank you!'}
+  },
+  responses:[]
+ };
+}
+function load(){
+ try{
+  const raw=localStorage.getItem(STORAGE_KEY);
+  if(!raw)return initial();
+  const data=JSON.parse(raw);
+  if(data?.survey && Array.isArray(data.survey.questions)){
+   if(!Array.isArray(data.responses))data.responses=[];
+   return data;
+  }
+ }catch(e){console.warn(e)}
+ return initial();
+}
+function loadPublished(){
+ try{
+  const data=JSON.parse(localStorage.getItem(PUBLISH_KEY)||'{}');
+  return data && typeof data==='object' && !Array.isArray(data)
+   ?data:{};
+ }catch(e){return {}}
+}
+
+let state=load();
+let publishedForms=loadPublished();
+let activeForm=null;
+let draftAnswers={};
+let tab='builder';
+
+const formParam=new URLSearchParams(location.search).get('form');
+const respondentMode=formParam!==null;
+
+function save(){
+ try{
+  localStorage.setItem(STORAGE_KEY,JSON.stringify(state));
+  $('saveStatus').textContent='Saved locally';
+  updateCount();
+  return true;
+ }catch(e){
+  alert('Could not save data. Browser storage may be full.');
+  return false;
+ }
+}
+function savePublished(){
+ try{
+  localStorage.setItem(PUBLISH_KEY,JSON.stringify(publishedForms));
+  return true;
+ }catch(e){
+  alert('Could not save published form.');
+  return false;
+ }
+}
+function findQ(id){
+ return state.survey.questions.find(q=>q.id===id);
+}
+function currentEntry(){
+ const id=state.survey.publishedFormId;
+ return id?publishedForms[id]:null;
+}
+function formUrl(id){
+ const url=new URL(location.href);
+ url.search='';
+ url.hash='';
+ url.searchParams.set('form',id);
+ return url.href;
+}
+function updateCount(){
+ $('responseBadge').textContent=state.responses.filter(r=>
+  r.surveyId===state.survey.id ||
+  (r.formId && r.formId===state.survey.publishedFormId)
+ ).length;
+}
+
+function setTab(next){
+ if(respondentMode)return;
+ tab=next;
+ ['builder','preview','responses'].forEach(name=>{
+  $(name+'Page').classList.toggle('hidden',name!==next);
+ });
+ document.querySelectorAll('[data-tab]').forEach(b=>
+  b.classList.toggle('active',b.dataset.tab===next)
+ );
+ if(next==='preview'){
+  activeForm=null;
+  renderPreview();
+ }
+ if(next==='responses')renderResponses();
+ if(next==='builder')renderPublish();
+ window.scrollTo(0,0);
+}
+
+function renderPublish(){
+ const entry=currentEntry();
+ const live=entry?.status==='published';
+ $('publishStatus').textContent=live?'● Published':'● Draft';
+ $('publishStatus').classList.toggle('live',live);
+ $('publishButton').textContent=live?'Publish Updates':'Publish';
+ $('unpublishButton').classList.toggle('hidden',!live);
+ $('sharePanel').classList.toggle('hidden',!live);
+ $('publishHint').textContent=live
+  ?'Your published snapshot is available for local testing.'
+  :'Publish a snapshot to test your form.';
+ if(live)$('shareUrl').textContent=formUrl(entry.formId);
+}
+
+$('publishButton').onclick=()=>{
+ if(!state.survey.title.trim()){
+  alert('Please enter a survey title.');
+  return;
+ }
+ if(!state.survey.questions.length){
+  alert('Please add at least one question.');
+  return;
+ }
+ for(const q of state.survey.questions){
+  if(OPTION_TYPES.has(q.type) &&
+     (!q.options.length || q.options.some(o=>!o.label.trim()))){
+   alert('Please complete all options before publishing.');
+   return;
+  }
+ }
+ const oldId=state.survey.publishedFormId;
+ const id=oldId || uid();
+ const previous=publishedForms[id];
+ const now=new Date().toISOString();
+
+ const entry={
+  formId:id,
+  surveyId:state.survey.id,
+  status:'published',
+  publishedAt:previous?.publishedAt||now,
+  updatedAt:now,
+  snapshot:clone(state.survey)
+ };
+ publishedForms[id]=entry;
+ if(!savePublished())return;
+ state.survey.publishedFormId=id;
+ save();
+ renderPublish();
+ alert('Form published locally!');
+};
+
+$('unpublishButton').onclick=()=>{
+ const entry=currentEntry();
+ if(!entry)return;
+ if(!confirm('Unpublish this form?'))return;
+ entry.status='draft';
+ entry.updatedAt=new Date().toISOString();
+ if(savePublished())renderPublish();
+};
+
+$('copyLink').onclick=async()=>{
+ const entry=currentEntry();
+ if(!entry || entry.status!=='published')return;
+ const link=formUrl(entry.formId);
+ try{
+  await navigator.clipboard.writeText(link);
+  alert('Link copied!');
+ }catch(e){
+  const input=document.createElement('textarea');
+  input.value=link;
+  document.body.appendChild(input);
+  input.select();
+  const copied=document.execCommand('copy');
+  input.remove();
+  alert(copied?'Link copied!':'Please copy the link manually: '+link);
+ }
+};
+$('openForm').onclick=()=>{
+ const entry=currentEntry();
+ if(entry?.status==='published')
+  window.open(formUrl(entry.formId),'_blank','noopener');
+};
+
+function renderBuilder(){
+ $('surveyTitle').value=state.survey.title;
+ $('surveyDescription').value=state.survey.description;
+ $('questionList').innerHTML=state.survey.questions.map((q,i)=>{
+  q.options=q.options||[];
+  q.settings=q.settings||{scaleMin:1,scaleMax:5,ratingMax:5};
+  const options=OPTION_TYPES.has(q.type)?`
+   <div>
+    <label>OPTIONS</label>
+    ${q.options.map(o=>`
+     <div class="option-row">
+      <input class="field" data-field="option"
+       data-q="${esc(q.id)}" data-option="${esc(o.id)}"
+       value="${esc(o.label)}">
+      <button class="btn small danger" data-action="remove-option"
+       data-q="${esc(q.id)}" data-option="${esc(o.id)}">✕</button>
+     </div>`).join('')}
+    <button class="btn small" data-action="add-option"
+     data-q="${esc(q.id)}">＋ Add Option</button>
+   </div>`:'';
+
+  let settings='';
+  if(q.type==='scale'){
+   settings=`<div class="row">
+    <div class="grow"><label>Minimum</label>
+     <select class="field" data-field="scaleMin" data-q="${esc(q.id)}">
+      ${[0,1].map(n=>`<option value="${n}"
+       ${q.settings.scaleMin===n?'selected':''}>${n}</option>`).join('')}
+     </select></div>
+    <div class="grow"><label>Maximum</label>
+     <select class="field" data-field="scaleMax" data-q="${esc(q.id)}">
+      ${[2,3,4,5,6,7,8,9,10].map(n=>`<option value="${n}"
+       ${q.settings.scaleMax===n?'selected':''}>${n}</option>`).join('')}
+     </select></div>
+   </div>`;
+  }
+  if(q.type==='rating'){
+   settings=`<div><label>Number of stars</label>
+    <select class="field" data-field="ratingMax" data-q="${esc(q.id)}">
+     ${[3,4,5,6,7,8,9,10].map(n=>`<option value="${n}"
+      ${q.settings.ratingMax===n?'selected':''}>${n}</option>`).join('')}
+    </select></div>`;
+  }
+  return `<article class="card question">
+   <div class="question-head">
+    <div class="grow">
+     <label>QUESTION ${i+1}</label>
+     <input class="field" data-field="title" data-q="${esc(q.id)}"
+      value="${esc(q.title)}" placeholder="Enter your question">
+    </div>
+    <div>
+     <label>QUESTION TYPE</label>
+     <select class="field" data-field="type" data-q="${esc(q.id)}">
+      ${TYPES.map(([v,t])=>`<option value="${v}"
+       ${q.type===v?'selected':''}>${t}</option>`).join('')}
+     </select>
+    </div>
+   </div>
+   <div class="stack" style="margin-top:16px">
+    ${options}${settings}
+   </div>
+   <div class="actions">
+    <label class="switch grow">
+     <input type="checkbox" data-field="required" data-q="${esc(q.id)}"
+      ${q.required?'checked':''}> Required
+    </label>
+    <button class="btn small" data-action="up" data-q="${esc(q.id)}"
+     ${i===0?'disabled':''}>↑</button>
+    <button class="btn small" data-action="down" data-q="${esc(q.id)}"
+     ${i===state.survey.questions.length-1?'disabled':''}>↓</button>
+    <button class="btn small" data-action="copy"
+     data-q="${esc(q.id)}">Duplicate</button>
+    <button class="btn small danger" data-action="delete"
+     data-q="${esc(q.id)}">Delete</button>
+   </div>
+  </article>`;
+ }).join('');
+ updateCount();
+}
+
+function updateField(el){
+ const q=findQ(el.dataset.q);
+ if(!q)return;
+ const field=el.dataset.field;
+ if(field==='option'){
+  const o=q.options.find(x=>x.id===el.dataset.option);
+  if(o)o.label=el.value;
+ }else if(field==='required'){
+  q.required=el.checked;
+ }else if(field==='type'){
+  q.type=el.value;
+  if(OPTION_TYPES.has(q.type)&&!q.options.length)
+   q.options=[{id:uid(),label:'Option 1'}];
+ }else if(['scaleMin','scaleMax','ratingMax'].includes(field)){
+  q.settings[field]=Number(el.value);
+ }else{
+  q[field]=el.value;
+ }
+ save();
+ if(['type','scaleMin','scaleMax','ratingMax'].includes(field))
+  renderBuilder();
+}
+$('questionList').addEventListener('input',e=>{
+ if(e.target.dataset.field && e.target.tagName!=='SELECT' &&
+    e.target.type!=='checkbox')updateField(e.target);
+});
+$('questionList').addEventListener('change',e=>{
+ if(e.target.dataset.field)updateField(e.target);
+});
+$('questionList').addEventListener('click',e=>{
+ const b=e.target.closest('button[data-action]');
+ if(!b)return;
+ const q=findQ(b.dataset.q);
+ if(!q)return;
+ const list=state.survey.questions;
+ const i=list.indexOf(q);
+ switch(b.dataset.action){
+  case 'add-option':
+   q.options.push({id:uid(),label:`Option ${q.options.length+1}`});
+   break;
+  case 'remove-option':
+   if(q.options.length<=1){
+    alert('Keep at least one option.');return;
+   }
+   q.options=q.options.filter(o=>o.id!==b.dataset.option);
+   break;
+  case 'copy':{
+   const copy=clone(q);
+   copy.id=uid();
+   copy.title+=' (copy)';
+   copy.options=copy.options.map(o=>({...o,id:uid()}));
+   list.splice(i+1,0,copy);
+   break;
+  }
+  case 'delete':
+   if(!confirm('Delete this question?'))return;
+   list.splice(i,1);
+   break;
+  case 'up':
+   if(i>0)[list[i-1],list[i]]=[list[i],list[i-1]];
+   break;
+  case 'down':
+   if(i<list.length-1)[list[i+1],list[i]]=[list[i],list[i+1]];
+   break;
+ }
+ save();renderBuilder();
+});
+$('surveyTitle').oninput=e=>{
+ state.survey.title=e.target.value;save();
+};
+$('surveyDescription').oninput=e=>{
+ state.survey.description=e.target.value;save();
+};
+$('addQuestion').onclick=()=>{
+ state.survey.questions.push(newQuestion());
+ save();renderBuilder();
+ document.querySelector('#questionList article:last-child')
+  ?.scrollIntoView({behavior:'smooth',block:'center'});
+};
+$('previewButton').onclick=()=>setTab('preview');
+$('backToBuilder').onclick=()=>setTab('builder');
+document.querySelectorAll('[data-tab]').forEach(b=>{
+ b.onclick=()=>setTab(b.dataset.tab);
+});
+
+function renderPreview(){
+ const survey=activeForm||state.survey;
+ draftAnswers={};
+ $('thankYou').classList.add('hidden');
+ $('formView').classList.remove('hidden');
+ $('previewTitle').textContent=survey.title||'Untitled survey';
+ $('previewDescription').textContent=survey.description||'';
+ $('previewQuestions').innerHTML=survey.questions.map((q,i)=>{
+  const id=esc(q.id);
+  const opts=q.options||[];
+  const s=q.settings||{};
+  let input='';
+  if(q.type==='short')
+   input=`<input class="field" data-answer="${id}" placeholder="Your answer">`;
+  if(q.type==='paragraph')
+   input=`<textarea class="field" data-answer="${id}"
+    placeholder="Your answer"></textarea>`;
+  if(q.type==='multiple'||q.type==='checkbox')
+   input=opts.map(o=>`<div class="choice">
+    <input type="${q.type==='multiple'?'radio':'checkbox'}"
+     name="q-${id}" id="o-${esc(o.id)}"
+     data-answer="${id}" value="${esc(o.id)}">
+    <label for="o-${esc(o.id)}">${esc(o.label)}</label>
+   </div>`).join('');
+  if(q.type==='dropdown')
+   input=`<select class="field" data-answer="${id}">
+    <option value="">Select an option</option>
+    ${opts.map(o=>`<option value="${esc(o.id)}">
+     ${esc(o.label)}</option>`).join('')}
+   </select>`;
+  if(q.type==='scale'){
+   const min=Number(s.scaleMin??1),max=Number(s.scaleMax??5);
+   input=`<div class="scale">
+    ${Array.from({length:Math.max(0,max-min+1)},(_,n)=>n+min)
+     .map(n=>`<label><input type="radio" name="q-${id}"
+      data-answer="${id}" value="${n}"> ${n}</label>`).join('')}
+   </div>`;
+  }
+  if(q.type==='rating')
+   input=`<div class="stars" data-rating="${id}">
+    ${Array.from({length:Number(s.ratingMax??5)},(_,n)=>`
+     <button type="button" class="star" data-star="${n+1}"
+      data-q="${id}" aria-label="${n+1} stars">★</button>`).join('')}
+   </div>`;
+  return `<div class="card" data-question-card="${id}">
+   <h3>${i+1}. ${esc(q.title||'Untitled question')}
+    ${q.required?'<span class="required">*</span>':''}</h3>
+   ${input}
+   <div class="error hidden" data-error="${id}">
+    This question is required.
+   </div>
+  </div>`;
+ }).join('');
+}
+$('previewQuestions').addEventListener('click',e=>{
+ const star=e.target.closest('[data-star]');
+ if(!star)return;
+ const id=star.dataset.q;
+ draftAnswers[id]=Number(star.dataset.star);
+ document.querySelectorAll(`[data-rating="${CSS.escape(id)}"] .star`)
+  .forEach(b=>b.classList.toggle('selected',
+   Number(b.dataset.star)<=draftAnswers[id]));
+});
+function readAnswer(q){
+ if(q.type==='rating')return draftAnswers[q.id]??null;
+ const nodes=[...document.querySelectorAll('[data-answer]')]
+  .filter(el=>el.dataset.answer===q.id);
+ if(q.type==='checkbox')
+  return nodes.filter(el=>el.checked).map(el=>el.value);
+ if(q.type==='multiple'||q.type==='scale')
+  return nodes.find(el=>el.checked)?.value??null;
+ return nodes[0]?.value??'';
+}
+function isEmpty(v){
+ return v==null || (Array.isArray(v)?v.length===0:
+  typeof v==='string'&&v.trim()==='');
+}
+$('surveyForm').addEventListener('submit',e=>{
+ e.preventDefault();
+ if(respondentMode){
+  const latest=loadPublished()[formParam];
+  if(latest?.status!=='published'){
+   $('previewPage').classList.add('hidden');
+   $('unavailablePage').classList.remove('hidden');
+   return;
+  }
+ }
+ const survey=activeForm||state.survey;
+ const answers={};
+ let firstError=null;
+ for(const q of survey.questions){
+  const value=readAnswer(q);
+  answers[q.id]=value;
+  const invalid=q.required&&isEmpty(value);
+  const error=[...document.querySelectorAll('[data-error]')]
+   .find(el=>el.dataset.error===q.id);
+  if(error)error.classList.toggle('hidden',!invalid);
+  if(invalid&&!firstError)
+   firstError=[...document.querySelectorAll('[data-question-card]')]
+    .find(el=>el.dataset.questionCard===q.id);
+ }
+ if(firstError){
+  firstError.scrollIntoView({behavior:'smooth',block:'center'});
+  return;
+ }
+ const response={
+  id:uid(),
+  surveyId:survey.id,
+  formId:respondentMode?formParam:null,
+  submittedAt:new Date().toISOString(),
+  answers,
+  questionSnapshot:clone(survey.questions)
+ };
+ // Reload before saving so another tab's submissions are preserved.
+ const latest=load();
+ latest.responses.push(response);
+ try{
+  localStorage.setItem(STORAGE_KEY,JSON.stringify(latest));
+  state.responses=latest.responses;
+ }catch(err){
+  alert('Could not save response. Please try again.');
+  return;
+ }
+ updateCount();
+ $('formView').classList.add('hidden');
+ $('thankYou').classList.remove('hidden');
+ window.scrollTo(0,0);
+});
 $('anotherResponse').onclick=renderPreview;
-function displayAnswer(q,v){if(isEmpty(v))return '—';if(OPTION_TYPES.has(q.type)){const values=Array.isArray(v)?v:[v];return values.map(id=>q.options.find(o=>o.id===id)?.label??'[Option removed]').join(', ')}if(q.type==='rating')return `${v} star(s)`;return String(v)}
-function renderResponses(){const rows=state.responses.filter(r=>r.surveyId===state.survey.id);$('responseCount').textContent=rows.length;$('responseList').innerHTML=rows.length?rows.slice().reverse().map((r,i)=>`<article class="card"><div class="row" style="justify-content:space-between"><h3>Response ${rows.length-i}</h3><span class="pill">${esc(new Date(r.submittedAt).toLocaleString())}</span></div>${Object.entries(r.answers).map(([qid,v])=>{const q=findQ(qid);return `<div class="answer"><strong>${esc(q?.title??'[Question removed]')}</strong><div class="muted">${esc(q?displayAnswer(q,v):Array.isArray(v)?v.join(', '):v)}</div></div>`}).join('')}</article>`).join(''):'<div class="card empty"><h3>No responses yet</h3><p class="muted">Open Preview and submit a test response to see it here.</p></div>'}
-$('clearResponses').onclick=()=>{if(!state.responses.length)return;if(confirm('Permanently delete all local test responses?')){state.responses=[];save();updateCount();renderResponses()}};
+
+function displayAnswer(q,v){
+ if(isEmpty(v))return '—';
+ if(OPTION_TYPES.has(q.type)){
+  const values=Array.isArray(v)?v:[v];
+  return values.map(id=>
+   (q.options||[]).find(o=>o.id===id)?.label??'[Option removed]'
+  ).join(', ');
+ }
+ if(q.type==='rating')return `${v} star(s)`;
+ return String(v);
+}
+function renderResponses(){
+ const latest=load();
+ state.responses=latest.responses;
+ const rows=state.responses.filter(r=>
+  r.surveyId===state.survey.id ||
+  (r.formId && r.formId===state.survey.publishedFormId)
+ );
+ $('responseCount').textContent=rows.length;
+ $('responseList').innerHTML=rows.length
+  ?rows.slice().reverse().map((r,i)=>`
+   <article class="card">
+    <div class="row" style="justify-content:space-between">
+     <h3>Response ${rows.length-i}</h3>
+     <span class="pill">
+      ${esc(new Date(r.submittedAt).toLocaleString())}
+     </span>
+    </div>
+    ${Object.entries(r.answers).map(([qid,v])=>{
+     const q=(r.questionSnapshot||[]).find(x=>x.id===qid)
+      ||findQ(qid);
+     return `<div class="answer">
+      <strong>${esc(q?.title??'[Question removed]')}</strong>
+      <div class="muted">${esc(q?displayAnswer(q,v):
+       Array.isArray(v)?v.join(', '):v)}</div>
+     </div>`;
+    }).join('')}
+   </article>`).join('')
+  :`<div class="card empty">
+    <h3>No responses yet</h3>
+    <p class="muted">Submit a test response to see it here.</p>
+   </div>`;
+}
+$('clearResponses').onclick=()=>{
+ if(!state.responses.length)return;
+ if(!confirm('Delete all local test responses?'))return;
+ const latest=load();
+ latest.responses=[];
+ state.responses=[];
+ try{
+  localStorage.setItem(STORAGE_KEY,JSON.stringify(latest));
+  updateCount();renderResponses();
+ }catch(e){alert('Could not clear responses.')}
+};
+
+// Initialize
 renderBuilder();
+
+if(respondentMode){
+ $('navigation').classList.add('hidden');
+ $('saveStatus').classList.add('hidden');
+ $('builderPage').classList.add('hidden');
+ $('responsesPage').classList.add('hidden');
+ $('backToBuilder').classList.add('hidden');
+
+ const entry=publishedForms[formParam];
+ if(entry?.status==='published' &&
+    entry.snapshot &&
+    Array.isArray(entry.snapshot.questions)){
+  activeForm=entry.snapshot;
+  $('previewPage').classList.remove('hidden');
+  renderPreview();
+ }else{
+  $('unavailablePage').classList.remove('hidden');
+  $('unavailableMessage').textContent=
+   entry?.status==='draft'
+    ?'This form has been unpublished.'
+    :'This form is unavailable in this browser. Local Demo links do not sync across devices.';
+ }
+}else{
+ renderPublish();
+}
 </script>
 </body>
 </html>
